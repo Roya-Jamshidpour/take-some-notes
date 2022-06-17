@@ -16,47 +16,55 @@ app.use(express.static('public'));
 
 // GET Routes for homepage
 app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+    res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 // GET Routes for notes page
 app.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/notes.html'))
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
+// gets database of stored notes
+app.get('/notes', (req, res) => {
+    fs.readFile("./db/db.json", (err, data) => {
+        if (err) throw err;
+        res.json(JSON.parse(data))
+    })
+})
 
-// posts new note to data
-app.post('/api/notes', (req, res) => {
+// posts new note to database
+app.post('/notes', (req, res) => {
+
     const { title, text } = req.body;
-// if all fields enetered then new note is saved
+    // if all fields enetered then new note is saved
     if (title && text) {
 
-    const newNote = {
-        title,
-        text,
-        note_id: uuid(),
-    };
-}
+        const newNote = {
+            title,
+            text,
+            id: uuid(),
 
-    // add note to database
-      
-        fs.readFile('./db/db.json', 'utf8', (err, data) => {
-          if (err) {
-            console.error(err);
-          }
-            const parsedData = JSON.parse(data);
-            console.log(JSON.parse(data))
-          parsedData.push(newNote);
-            fs.writeToFile('./db/db.json', JSON.stringify(parsedData), err => {
-                if (err) {
-                    console.error(err);
-                res.json(parsedData)    
-           
+        };
     }
-        
-});
+        const parseData = JSON.parse(data);
+        console.log(JSON.parse(data));
+        parseData.push(newNote);
+        fs.writeFile("./db/db.json", JSON.stringify(parseData), err => {
+            if (err) throw err;
+            res.json(parseData)
+
+        })
+    });
+
+
+
+
+// 
+
+
+
 
 // deletes note
 
 // API Routes
 app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`))
+    console.log(`App listening at http://localhost:${PORT} 🚀`))
