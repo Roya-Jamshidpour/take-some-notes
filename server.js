@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require("fs");
-const util = require('util');
+const uniqid = require('uniqid');
 
 const PORT = process.env.port || 3001;
 
@@ -45,7 +45,7 @@ app.post('/notes', (req, res) => {
 
         };
     }
-        const parseData = JSON.parse(data);
+        const parseData = JSON.parse(newNote);
         console.log(JSON.parse(data));
         parseData.push(newNote);
         fs.writeFile("./db/db.json", JSON.stringify(parseData), err => {
@@ -54,14 +54,6 @@ app.post('/notes', (req, res) => {
 
         })
     });
-
-
-
-
-// 
-
-
-
 
 // deletes note
 
