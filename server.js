@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require("fs");
-const { randomUUID } = require('crypto');
+const util = require('util');
 
 const PORT = process.env.port || 3001;
 
@@ -37,6 +37,11 @@ if (title && text) {
     };
 
     readAndAppend(newNote, './db/db.json');
+
+    const writeToFile = (destination, content) =>
+  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+    err ? console.error(err) : console.info(`\nData written to ${destination}`)
+  );
 
     const response = {
         status: 'success',
