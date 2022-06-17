@@ -1,7 +1,8 @@
 // Dependencies 
 const express = require('express');
 const path = require('path');
-const fs = require("fs")
+const fs = require("fs");
+const { randomUUID } = require('crypto');
 
 const PORT = process.env.port || 3001;
 
@@ -27,3 +28,29 @@ app.get('/notes', (req, res) =>
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
+// posts new note to data
+app.post('/api/notes', (req, res) => {
+    const { title, text } = req.body;
+// if all fields enetered then new note is saved
+if (title && text) {
+
+    const newNote = {
+        title,
+        text,
+        note_id: uuid(),
+    };
+
+    readAndAppend(newNote, './db/db.json');
+
+    const response = {
+        status: 'success',
+        body: newNote,
+      };
+  
+      res.json(response);
+    } else {
+      res.json('Error in posting note');
+    }
+});
+// deletes note
