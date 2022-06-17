@@ -24,11 +24,6 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
-// API Routes
-app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
-);
-
 // posts new note to data
 app.post('/api/notes', (req, res) => {
     const { title, text } = req.body;
@@ -54,3 +49,8 @@ if (title && text) {
     }
 });
 // deletes note
+
+// API Routes
+app.listen(PORT, () =>
+  console.log(`App listening at http://localhost:${PORT} 🚀`)
+);
