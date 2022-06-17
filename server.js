@@ -28,34 +28,35 @@ app.get('/notes', (req, res) =>
 app.post('/api/notes', (req, res) => {
     const { title, text } = req.body;
 // if all fields enetered then new note is saved
-if (title && text) {
+    if (title && text) {
 
     const newNote = {
         title,
         text,
         note_id: uuid(),
     };
+}
 
-    readAndAppend(newNote, './db/db.json');
-
-    const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nData written to ${destination}`)
-  );
-
-    const response = {
-        status: 'success',
-        body: newNote,
-      };
-  
-      res.json(response);
-    } else {
-      res.json('Error in posting note');
+    // add note to database
+      
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
+          if (err) {
+            console.error(err);
+          }
+            const parsedData = JSON.parse(data);
+            console.log(JSON.parse(data))
+          parsedData.push(newNote);
+            fs.writeToFile('./db/db.json', JSON.stringify(parsedData), err => {
+                if (err) {
+                    console.error(err);
+                res.json(parsedData)    
+           
     }
+        
 });
+
 // deletes note
 
 // API Routes
 app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
-);
+  console.log(`App listening at http://localhost:${PORT} 🚀`))
