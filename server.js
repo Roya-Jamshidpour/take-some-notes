@@ -3,26 +3,25 @@ const express = require('express');
 const path = require('path');
 const fs = require("fs");
 const uniqid = require('uniqid');
-
-const PORT = process.env.port || 3001;
-
 const app = express();
+const PORT = process.env.port || 3001;
 
 // Server settings middleware used
 // Middleware for parsing JSON and urlencoded form data
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use('/api', api);
 app.use(express.static('public'));
 
 // GET Routes for homepage
 app.get('/', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/index.html'))
 );
-
 // GET Routes for notes page
-app.get('/notes', (req, res) =>
+app.get('api/notes', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
+
 // gets database of stored notes
 app.get('/notes', (req, res) => {
     fs.readFile("./db/db.json", (err, data) => {
@@ -32,7 +31,7 @@ app.get('/notes', (req, res) => {
 })
 
 // posts new note to database
-app.post('/notes', (req, res) => {
+app.post('api/notes', (req, res) => {
 
     const { title, text } = req.body;
     // if all fields enetered then new note is saved
