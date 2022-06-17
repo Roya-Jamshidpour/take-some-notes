@@ -6,14 +6,6 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
-let enterButton = document.querySelector('.button-primary');
-
-enterButton.addEventListener('click', showNotes)
-
-function showNotes() {
-  window.location.href = "./notes.html";
-}
-
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
   noteText = document.querySelector('.note-textarea');
