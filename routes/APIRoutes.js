@@ -1,41 +1,62 @@
 const router = require('express').Router();
-// const path = require('path');
-// const fs = require("fs");
-// const uniqid = require('uniqid');
+const store = require('../db/store');
 
-// gets database of stored notes
+// GET "/api/notes" responds with all notes from the database
 router.get('/notes', (req, res) => {
-    fs.readFile("./db/db.json", (err, data) => {
-        if (err) throw err;
-        res.json(JSON.parse(data))
+  store
+    .getNotes()
+    .then((notes) => {
+      return res.json(notes);
     })
-})
+    .catch((err) => res.status(500).json(err));
+});
 
-// posts new note to database
-router.post('api/notes', (req, res) => {
+router.post('/notes', (req, res) => {
+  store
+    .addNote(req.body)
+    .then((note) => res.json(note))
+    .catch((err) => res.status(500).json(err));
+});
 
-    const { title, text } = req.body;
-    // if all fields enetered then new note is saved
-    if (title && text) {
+// DELETE "/api/notes" deletes the note with an id equal to req.params.id
+router.delete('/notes/:id', (req, res) => {
+  store
+    .removeNote(req.params.id)
+    .then(() => res.json({ ok: true }))
+    .catch((err) => res.status(500).json(err));
+});
 
-        const newNote = {
-            title,
-            text,
-            id: uuid(),
 
-        };
-    }
-        const parseData = JSON.parse(newNote);
-        console.log(JSON.parse(data));
-        parseData.push(newNote);
+module.exports = router;
+// router.get('/notes', (req, res) => {
+//     fs.readFile("./db/db.json", (err, data) => {
+//         if (err) throw err;
+//         res.json(JSON.parse(data))
+//     })
+// })
+
+// // posts new note to database
+// router.post('api/notes', (req, res) => {
+
+//     const { title, text } = req.body;
+//     // if all fields enetered then new note is saved
+//     if (title && text) {
+
+//         const newNote = {
+//             title,
+//             text,
+//             id: uuid(),
+
+//         };
+//     }
+//         const parseData = JSON.parse(newNote);
+//         console.log(JSON.parse(data));
+//         parseData.push(newNote);
         
-        fs.writeFile("./db/db.json", JSON.stringify(parseData), err => {
-            if (err) throw err;
-            res.json(parseData)
+//         fs.writeFile("./db/db.json", JSON.stringify(parseData), err => {
+//             if (err) throw err;
+//             res.json(parseData)
 
-        })
-    });
+//         })
+//     });
 
-// deletes note
-
-module.exports = router
