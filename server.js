@@ -3,7 +3,7 @@ const express = require('express');
 const apiRoutes = require('./routes/APIRoutes')
 const htmlRoutes = require('./routes/HTMLRoutes')
 const app = express();
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 3001;
 
 // Server settings middleware used
 // Middleware for parsing JSON and urlencoded form data
