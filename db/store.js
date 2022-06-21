@@ -3,7 +3,7 @@
 
   // Post a new tip to the page
    const getNotes = () =>
-  fetch('api/tips', {
+  fetch('api/notes', {
     method: 'GET', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
