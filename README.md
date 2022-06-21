@@ -7,7 +7,7 @@ Roya Jamshidpour - roya.jamshidpour@gmail.com
 
 
 ## Installation & Usage:
-1. To install this application, open <a href="https://roya-take-some-notes.herokuapp.com/">this link</a>
+1. To install this application, open <a href="https://take-some-notes-roya.herokuapp.com/">this link</a>
 
 2. Click "Get Started" on the landing page and get to your note taking!
 
